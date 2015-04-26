@@ -71,7 +71,10 @@ class Model_def extends CI_Model
 
     public function getAuth($arr)
     {
-
+        if (trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) {
+            $this->session->set_flashdata('err_message', 'Неверно введен код с картинки');
+            return '/login';
+        }
         $sql = "SELECT * FROM user WHERE email='{$arr['email']}' AND password='" . md5($arr['password']) . "'";
         $result = $this->db->query($sql);
         $arr_res = $result->result_array();
@@ -79,11 +82,7 @@ class Model_def extends CI_Model
             $this->session->set_userdata($arr_res[0]);
         } else {
             if ($arr['type'] == 'local') {
-
                 $this->session->set_flashdata('err_message', 'Неправильный логин или пароль');
-                if (trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) {
-                    $this->session->set_flashdata('err_message', 'Неверно введен код с картинки');
-                }
                 return '/login';
             }
             if ($arr['type'] != 'local') {

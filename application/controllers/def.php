@@ -1,16 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of default
- *
- * @author Admin
- */
 class Def extends CI_Controller
 {
 
@@ -25,8 +13,8 @@ class Def extends CI_Controller
 
     public function index()
     {
+        //$this->output->cache(20);
         $this->view->title = 'Главная';
-        //$this->view->layout_var('template/header','header',array());
         $this->view->content('content/main');
     }
 
