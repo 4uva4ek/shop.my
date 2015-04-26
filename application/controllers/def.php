@@ -37,7 +37,7 @@ class Def extends CI_Controller {
         var_dump($this->CI->router->config);
         $this->view->title='Авторизация';
         $data = $this->ulogin->userdata();
-        $this->view->content('content/authoriz',array('ulogin'=>$this->ulogin->get_html()));
+        $this->view->content('content/authoriz',array('ulogin'=>$this->ulogin->get_html())); 
     }
 
 }
