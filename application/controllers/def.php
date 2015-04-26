@@ -13,7 +13,6 @@
  */
 class Def extends CI_Controller {
 
-//put your code here
     function __construct() {
         parent::__construct();
         $this->load->model('model_def','model');
