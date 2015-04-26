@@ -13,7 +13,6 @@ class Def extends CI_Controller
 
     public function index()
     {
-        //$this->output->cache(20);
         $this->view->title = 'Главная';
         $this->view->content('content/main');
     }
@@ -67,6 +66,14 @@ class Def extends CI_Controller
         );
 
         $this->session->set_flashdata('captcha', create_captcha_stream($vals));
+    }
+
+    public function registration()
+    {
+        $this->load->library('Ulogin');
+        $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
+        $this->view->title = 'Авторизация';
+        $this->view->content('content/registration', array('ulogin' => $this->ulogin->get_html()));
     }
 
 }

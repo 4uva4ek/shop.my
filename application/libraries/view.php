@@ -46,15 +46,30 @@ class View {
      * @param String $template
      */
     function fetch($template) {
+        $this->CI->load->driver('cache', array('adapter' => 'memcached'));
+        $this->CI->cache->memcached->save('content', '123', 10);
         $content = $this->CI->load->view($template, $this->content_vars, true);
+        $get = $this->CI->cache->cache_info();
         $this->showMessage();
         $this->layout_vars['content'] = $content;
-        $this->layout_vars['head'] = $this->getHead();
-        $this->layout_vars['header'] = $this->getHeader();
+        $this->layout_vars['head'] = $this->get_cache('head', 'getHead');
+        $this->layout_vars['header'] = $this->get_cache('header', 'getHeader');
         $this->layout_vars['navigation'] = $this->getNavigation();
-        $this->layout_vars['footer'] = $this->getFooter();
+        $this->layout_vars['footer'] = $this->get_cache('footer', 'getFooter');
 
         return $this->CI->load->view($this->layout, $this->layout_vars, true);
+    }
+
+    function get_cache($key, $function)
+    {
+        $this->CI->load->driver('cache', array('adapter' => 'memcached'));
+        //$this->CI->output->cache(360);
+        $mem = $this->CI->cache->memcached->get($key);
+        if (!$mem) {
+            $this->CI->cache->memcached->save($key, $this->$function());
+            $mem = $this->CI->cache->memcached->get($key);
+        }
+        return $mem;
     }
 
     function showMessage()

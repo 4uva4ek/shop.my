@@ -9,7 +9,8 @@
             <div class="auth"><label>Введите текст с картинки:<br/> <input type="text" name="captcha" required/></label>
             </div>
             <div><img src="/def/captcha"/></div>
-            <div class="auth_submit" style=""><input type="submit" name="go_auth" value="Войти" /></div><div style='float:left;margin:0.5em 0;'><a href="/register">Регистрация</a></div>
+            <div class="auth_submit" style=""><input type="submit" name="go_auth" value="Войти"/></div>
+            <div style='float:left;margin:0.5em 0;'><a href="/registration">Регистрация</a></div>
         </form>
     </div>
 </div>
