@@ -30,20 +30,55 @@ class Def extends CI_Controller
         $this->view->content('content/main');
     }
 
-    public function cat()
+    public function catalog()
     {
         $this->view->title = 'Категории';
-        $this->view->content('content/categories');
+        $this->view->content('content/catalog');
     }
 
-    public function authoriz()
+    public function login()
     {
         $this->load->library('Ulogin');
-        $this->ulogin->url = $this->CI->router->config['config']['base_url'] . '/def/get_auth';
-        var_dump($this->CI->router->config);
+        $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
         $this->view->title = 'Авторизация';
+        $this->view->content('content/login', array('ulogin' => $this->ulogin->get_html()));
+    }
+
+    public function get_auth()
+    {
+        $this->load->library('Ulogin');
         $data = $this->ulogin->userdata();
-        $this->view->content('content/authoriz', array('ulogin' => $this->ulogin->get_html()));
+        if (!$data) {
+            $arr['email'] = $this->input->post('email');
+            $arr['password'] = $this->input->post('password');
+            $arr['type'] = 'local';
+        }
+        if ($data) {
+            $arr['email'] = $data['email'];
+            $arr['password'] = $data['uid'];
+            $arr['type'] = $data['network'];
+            $arr['nickname'] = $data['first_name'] . ' ' . $data['last_name'];
+        }
+        redir($this->model->getAuth($arr));
+    }
+
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redir('/');
+    }
+
+    public function captcha()
+    {
+        $this->load->helper('captcha');
+        $vals = array(
+            'img_width' => 152,            // ширина изображения (int)
+            'img_height' => 30,            // высота изображения (int)
+            'random_str_length' => 4,        // длина случайной строки (int)
+            'border' => FALSE,
+        );
+
+        $this->session->set_flashdata('captcha', create_captcha_stream($vals));
     }
 
 }

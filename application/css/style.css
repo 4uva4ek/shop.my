@@ -2304,6 +2304,26 @@ img.art-lightbox-image.active
     margin:0.5em 0;
     margin-right:1.5em;
 }
+
+.error_class, .okay_class, .info_class {
+    padding: 2em;
+    margin: 0.4em;
+}
+
+.okay_class {
+    border: solid 1px green;
+    background-color: aquamarine;
+}
+
+.error_class {
+    border: solid 1px red;
+    background-color: darksalmon;
+}
+
+.info_class {
+    border: solid 1px blue;
+    background-color: skyblue;
+}
 @media screen and (max-width: 480px) {
     input[type="text"], input[type="password"], input[type="email"], input[type="url"], textarea, input[type="submit"]
     {

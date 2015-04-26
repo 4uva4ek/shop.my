@@ -47,7 +47,7 @@ class View {
      */
     function fetch($template) {
         $content = $this->CI->load->view($template, $this->content_vars, true);
-
+        $this->showMessage();
         $this->layout_vars['content'] = $content;
         $this->layout_vars['head'] = $this->getHead();
         $this->layout_vars['header'] = $this->getHeader();
@@ -55,6 +55,19 @@ class View {
         $this->layout_vars['footer'] = $this->getFooter();
 
         return $this->CI->load->view($this->layout, $this->layout_vars, true);
+    }
+
+    function showMessage()
+    {
+        $this->layout_vars['message'] = array();
+        $arr = array('err_message' => 'error_class', 'ok_message' => 'okay_class', 'info_message' => 'info_class');
+        foreach ($arr as $key => $class) {
+            $data['message'] = $this->CI->session->flashdata($key);
+            $data['class'] = $class;
+            if ($data['message']) {
+                $this->layout_vars['message'][] = $this->CI->load->view('template/message', $data, true);
+            }
+        }
     }
 
     function getHead() {

@@ -55,4 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['catalog'] = "def/catalog";
 $route['hot'] = "def/hot";
 $route['about'] = "def/about";
-$route['authoriz'] = "def/authoriz";
+$route['login'] = "def/login";
+$route['logout'] = "def/logout";
