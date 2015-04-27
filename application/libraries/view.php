@@ -52,7 +52,7 @@ class View {
         $get = $this->CI->cache->cache_info();
         $this->showMessage();
         $this->layout_vars['content'] = $content;
-        $this->layout_vars['head'] = $this->get_cache('head', 'getHead');
+        $this->layout_vars['head'] = $this->getHead();
         $this->layout_vars['header'] = $this->get_cache('header', 'getHeader');
         $this->layout_vars['navigation'] = $this->getNavigation();
         $this->layout_vars['footer'] = $this->get_cache('footer', 'getFooter');

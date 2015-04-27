@@ -66,12 +66,12 @@ class Model_def extends CI_Model
     private function dataAuth()
     {
         $data = $this->session->all_userdata();
-        return $data;
+        return $data['user'];
     }
 
     public function getAuth($arr)
     {
-        if (trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) {
+        if ((trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) && $arr['type'] == 'local') {
             $this->session->set_flashdata('err_message', 'Неверно введен код с картинки');
             return '/login';
         }
@@ -79,7 +79,7 @@ class Model_def extends CI_Model
         $result = $this->db->query($sql);
         $arr_res = $result->result_array();
         if (isset($arr_res[0])) {
-            $this->session->set_userdata($arr_res[0]);
+            $this->session->set_userdata(array('user'=>$arr_res[0]));
         } else {
             if ($arr['type'] == 'local') {
                 $this->session->set_flashdata('err_message', 'Неправильный логин или пароль');
@@ -87,7 +87,7 @@ class Model_def extends CI_Model
             }
             if ($arr['type'] != 'local') {
                 $this->addUser($arr);
-                $this->session->set_userdata($arr);
+                $this->session->set_userdata(array('user'=>$arr));
             }
         }
         return '/';
@@ -98,6 +98,43 @@ class Model_def extends CI_Model
     {
         $sql = "INSERT INTO user (email, password, nickname) VALUES ('{$data['email']}','" . md5($data['password']) . "','" . $data['nickname'] . "')";
         $this->db->query($sql);
+    }
+
+    public function registration(){
+        $data['email'] = $this->input->post('email');
+        $data['password'] = $this->input->post('password');
+        $data['nickname'] = $this->input->post('nickname');
+        $emails = $this->db->get('user');
+        $password2 = $this->input->post('password2');
+        $mess=false;
+        if (trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) {
+            $mess.= 'Неверно введен код с картинки<br/>';
+        }
+        if ($data['password']!=$password2){
+            $mess.= 'Пароли не совпадают<br/>';
+        }
+        foreach ($emails->result_array() as $email){
+            if ($data['email']==$email){
+                $mess.='Указанная электронная почта уже существует<br/>';
+            }
+        }
+        if ($mess){
+            $this->session->set_flashdata('err_message', $mess);
+            return false;
+        }
+        $this->addUser($data);
+        $this->session->set_flashdata('ok_message', 'Регистрация завершена успешно');
+        return true;
+
+    }
+
+    public function getVals($vals){
+        if (is_array($vals)){
+            foreach ($vals as $val){
+                $out[$val] = $this->input->post($val);
+            }
+            return $out;
+        } else return false;
     }
 
 }

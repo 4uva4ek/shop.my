@@ -70,10 +70,26 @@ class Def extends CI_Controller
 
     public function registration()
     {
-        $this->load->library('Ulogin');
-        $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
+        if (!$this->input->post('go_register')) {
+            $this->load->library('Ulogin');
+            $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
+            $this->view->title = 'Регистрация';
+            $this->view->content('content/registration', array('ulogin' => $this->ulogin->get_html(), 'do' => 'show_html'));
+        } else {
+            if ($this->model->registration()) {
+                $this->view->title = 'Регистрация завершена';
+                $this->view->content('content/registration', array('do' => 'thanks'));
+            } else {
+                $this->load->library('Ulogin');
+                $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
+                $this->view->title = 'Регистрация';
+                $this->view->content('content/registration', array('ulogin' => $this->ulogin->get_html(), 'do' => 'show_html','vals'=>$this->model->getVals(array('email','nickname'))));
+            }
+        }
+    }
+    public function account(){
         $this->view->title = 'Авторизация';
-        $this->view->content('content/registration', array('ulogin' => $this->ulogin->get_html()));
+        $this->view->content('content/account', array('ulogin' => $this->ulogin->get_html()));
     }
 
 }
