@@ -20,6 +20,7 @@ class View {
         $this->title = '';
         $this->description = '';
         $this->keywords = '';
+        $this->history = array('Главная'=>'/');
         $this->copyright = '© 2012 Santana Demo Store. All Rights Reserved. Design &amp; Develop by <a href="http://www.magicdesignlabs.com/">MagicDesignLabs</a>';
         $this->CI = &get_instance();
     }
@@ -56,6 +57,7 @@ class View {
         $this->layout_vars['header'] = $this->get_cache('header', 'getHeader');
         $this->layout_vars['navigation'] = $this->getNavigation();
         $this->layout_vars['footer'] = $this->get_cache('footer', 'getFooter');
+        $this->layout_vars['history'] = $this->showHistory();
 
         return $this->CI->load->view($this->layout, $this->layout_vars, true);
     }
@@ -70,6 +72,17 @@ class View {
             $mem = $this->CI->cache->memcached->get($key);
         }
         return $mem;
+    }
+
+    function addHistory($name,$url){
+        $this->history[$name]=$url;
+    }
+    function showHistory(){
+        $str='';
+        foreach ($this->history as $name=>$url){
+            $str[]='<a href="'.$url.'" style="text-decoration: none; color: #162664;">'.$name.'</a>';
+        }
+        return implode(' > ',$str);
     }
 
     function showMessage()

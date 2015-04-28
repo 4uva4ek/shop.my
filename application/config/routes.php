@@ -58,3 +58,4 @@ $route['about'] = "def/about";
 $route['login'] = "def/login";
 $route['logout'] = "def/logout";
 $route['registration'] = "def/registration";
+$route['account'] = "def/account";

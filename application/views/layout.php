@@ -7,9 +7,11 @@
     <?php echo $navigation; ?>
     <div class="art-sheet clearfix">
         <div class="art-layout-wrapper clearfix">
+            <div class="art-block clearfix" style="padding:5px;">
+                <?php echo $history;?>
+            </div>
             <div class="art-content-layout">
                 <div class="art-content-layout-row">
-
                     <div class="art-layout-cell art-sidebar1 clearfix">
                         <!-- начало блока-->
                         <div class="art-block clearfix">

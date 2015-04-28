@@ -9,6 +9,7 @@ class Def extends CI_Controller
         $this->load->model('model_def', 'model');
         $this->load->helper('myurl');
         $this->load->library('view');
+        $this->load->library('session');
     }
 
     public function index()
@@ -19,12 +20,14 @@ class Def extends CI_Controller
 
     public function catalog()
     {
+        $this->view->addHistory('Каталог','/catalog');
         $this->view->title = 'Категории';
         $this->view->content('content/catalog');
     }
 
     public function login()
     {
+        $this->view->addHistory('Вход','/login');
         $this->load->library('Ulogin');
         $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
         $this->view->title = 'Авторизация';
@@ -70,6 +73,7 @@ class Def extends CI_Controller
 
     public function registration()
     {
+        $this->view->addHistory('Регистрация','/registration');
         if (!$this->input->post('go_register')) {
             $this->load->library('Ulogin');
             $this->ulogin->url = $this->router->config->config['base_url'] . 'def/get_auth';
@@ -88,8 +92,9 @@ class Def extends CI_Controller
         }
     }
     public function account(){
+        $this->view->addHistory('Профиль','/account');
         $this->view->title = 'Авторизация';
-        $this->view->content('content/account', array('ulogin' => $this->ulogin->get_html()));
+        $this->view->content('content/account', array('user' => $this->session->userdata('user')));
     }
 
 }

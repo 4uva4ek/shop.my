@@ -66,7 +66,11 @@ class Model_def extends CI_Model
     private function dataAuth()
     {
         $data = $this->session->all_userdata();
-        return $data['user'];
+        if (isset($data['user'])) {
+            return $data['user'];
+        } else {
+            return false;
+        }
     }
 
     public function getAuth($arr)
