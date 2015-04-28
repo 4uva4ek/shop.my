@@ -3,41 +3,49 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class View {
+class View
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->layout_vars = array();
         $this->content_vars = array();
         $this->head_vars = array();
         $this->header_vars = array();
         $this->footer_vars = array();
         $this->nav_vars = array();
+        $this->side_vars = array();
         $this->layout = 'layout';
         $this->head = 'template/head';
         $this->header = 'template/header';
         $this->footer = 'template/footer';
         $this->navigation = 'template/navigation';
+        $this->sidebar = 'content/sidebar';
         $this->title = '';
         $this->description = '';
         $this->keywords = '';
-        $this->history = array('Главная'=>'/');
+        $this->history = array('Главная' => '/');
         $this->copyright = '© 2012 Santana Demo Store. All Rights Reserved. Design &amp; Develop by <a href="http://www.magicdesignlabs.com/">MagicDesignLabs</a>';
         $this->CI = &get_instance();
     }
 
-    function setLayout($template) {
+    function setLayout($template)
+    {
         $this->layout = $template;
     }
 
-    function setTitle($title) {
+    function setTitle($title)
+    {
         $this->title = $title;
     }
 
-    function set($varName, $value) {
+    function set($varName, $value)
+    {
         $this->vars[$varName] = $value;
     }
 
-    function setGlobal($varName, $value) {
+    function setGlobal($varName, $value)
+    {
         $this->layoutVars[$varName] = $value;
     }
 
@@ -46,7 +54,8 @@ class View {
      *
      * @param String $template
      */
-    function fetch($template) {
+    function fetch($template)
+    {
         $this->CI->load->driver('cache', array('adapter' => 'memcached'));
         $this->CI->cache->memcached->save('content', '123', 10);
         $content = $this->CI->load->view($template, $this->content_vars, true);
@@ -58,6 +67,7 @@ class View {
         $this->layout_vars['navigation'] = $this->getNavigation();
         $this->layout_vars['footer'] = $this->get_cache('footer', 'getFooter');
         $this->layout_vars['history'] = $this->showHistory();
+        $this->layout_vars['sidebar'] = $this->getSidebar();
 
         return $this->CI->load->view($this->layout, $this->layout_vars, true);
     }
@@ -74,15 +84,18 @@ class View {
         return $mem;
     }
 
-    function addHistory($name,$url){
-        $this->history[$name]=$url;
+    function addHistory($name, $url)
+    {
+        $this->history[$name] = $url;
     }
-    function showHistory(){
-        $str='';
-        foreach ($this->history as $name=>$url){
-            $str[]='<a href="'.$url.'" style="text-decoration: none; color: #162664;">'.$name.'</a>';
+
+    function showHistory()
+    {
+        $str = '';
+        foreach ($this->history as $name => $url) {
+            $str[] = '<a href="' . $url . '" style="text-decoration: none; color: #162664;">' . $name . '</a>';
         }
-        return implode(' > ',$str);
+        return implode(' > ', $str);
     }
 
     function showMessage()
@@ -98,7 +111,8 @@ class View {
         }
     }
 
-    function getHead() {
+    function getHead()
+    {
         $this->head_vars['description'] = $this->description;
         $this->head_vars['keywords'] = $this->keywords;
         $this->head_vars['title'] = $this->title;
@@ -106,21 +120,36 @@ class View {
         return $head;
     }
 
-    function getHeader() {
+    function getSideBar()
+    {
+        return $this->CI->load->view($this->sidebar, $this->side_vars, true);
+    }
+
+    function addSideBar($bar_name, $bar_content)
+    {
+        $arr['name'] = $bar_name;
+        $arr['content'] = $bar_content;
+        $this->side_vars['bars'][] = $arr;
+    }
+
+    function getHeader()
+    {
         $this->header_vars['description'] = $this->description;
         $this->header_vars['keywords'] = $this->keywords;
         $head = $this->CI->load->view($this->header, $this->header_vars, true);
         return $head;
     }
 
-    function getNavigation() {
-        $this->CI->load->model('model_def','model');
+    function getNavigation()
+    {
+        $this->CI->load->model('model_def', 'model');
         $this->nav_vars['nav'] = $this->CI->model->getNavigation($this->CI->router->method);
         $nav = $this->CI->load->view($this->navigation, $this->nav_vars, true);
         return $nav;
     }
 
-    function getFooter() {
+    function getFooter()
+    {
         $this->footer_vars['copyright'] = $this->copyright;
         $footer = $this->CI->load->view($this->footer, $this->footer_vars, true);
         return $footer;
@@ -131,7 +160,8 @@ class View {
      *
      * @param String $template
      */
-    function content($template, $arr = array()) {
+    function content($template, $arr = array())
+    {
         if (is_array($arr)) {
             foreach ($arr as $key => $val) {
                 $this->content_vars[$key] = $val;
@@ -140,7 +170,8 @@ class View {
         echo $this->fetch($template);
     }
 
-    function layout_var($template, $name, $array) {
+    function layout_var($template, $name, $array)
+    {
         $this->layout_vars[$name] = $this->CI->load->view($template, $array, true);
     }
 

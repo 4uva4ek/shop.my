@@ -10,6 +10,11 @@ class Def extends CI_Controller
         $this->load->helper('myurl');
         $this->load->library('view');
         $this->load->library('session');
+        $this->user = $this->session->userdata('user');
+        if ($this->user['access'] == 2)
+        {
+            $this->view->addSideBar('Панель управления',$this->model->showAdminPanel());
+        }
     }
 
     public function index()

@@ -194,7 +194,7 @@ jQuery(function ($) {
         return  str.split(/\s*,\s*/);
     }
 
-    $('.art-slider .art-slide-item').each(function () {
+    $('.slider .slide-item').each(function () {
         var bgs = split($(this).css('background-image'));
         // needs to use the last image
         if (bgs.length > 1) {
@@ -207,8 +207,8 @@ jQuery(window).bind("resize", function () {
     'use strict';
     if (typeof responsiveDesign !== "undefined" && responsiveDesign.isResponsive)
         return;
-    var sheetLeft = jQuery(".art-sheet").offset().left;
-    jQuery("header.art-header #art-flash-area").each(function () {
+    var sheetLeft = jQuery(".sheet").offset().left;
+    jQuery("header.header #flash-area").each(function () {
         var object = jQuery(this);
         object.css("left", sheetLeft + "px");
     });
@@ -216,7 +216,7 @@ jQuery(window).bind("resize", function () {
 
 jQuery(function($) {
     'use strict';
-    $('nav.art-nav').addClass("desktop-nav");
+    $('nav.nav').addClass("desktop-nav");
 });
 
 
@@ -225,12 +225,12 @@ jQuery(function ($) {
     if (!$.browser.msie || parseInt($.browser.version, 10) > 7) {
         return;
     }
-    $('ul.art-hmenu>li:not(:first-child)').each(function () { $(this).prepend('<span class="art-hmenu-separator"> </span>'); });
+    $('ul.hmenu>li:not(:first-child)').each(function () { $(this).prepend('<span class="hmenu-separator"> </span>'); });
 });
 
 jQuery(function ($) {
     'use strict';
-    $("ul.art-hmenu a:not([href])").attr('href', '#').click(function (e) { e.preventDefault(); });
+    $("ul.hmenu a:not([href])").attr('href', '#').click(function (e) { e.preventDefault(); });
 });
 
 
@@ -247,7 +247,7 @@ jQuery(function ($) {
     /* Fix width of submenu items.
     * The width of submenu item calculated incorrectly in IE6-7. IE6 has wider items, IE7 display items like stairs.
     */
-    $.each($("ul.art-hmenu ul"), function () {
+    $.each($("ul.hmenu ul"), function () {
         var maxSubitemWidth = 0;
         var submenu = $(this);
         var subitem = null;
@@ -271,11 +271,11 @@ jQuery(function ($) {
 jQuery(function () {
     'use strict';
     setHMenuOpenDirection({
-        container: "div.art-sheet",
-        defaultContainer: "#art-main",
-        menuClass: "art-hmenu",
-        leftToRightClass: "art-hmenu-left-to-right",
-        rightToLeftClass: "art-hmenu-right-to-left"
+        container: "div.sheet",
+        defaultContainer: "#main",
+        menuClass: "hmenu",
+        leftToRightClass: "hmenu-left-to-right",
+        rightToLeftClass: "hmenu-right-to-left"
     });
 });
 
@@ -317,8 +317,8 @@ jQuery(function ($) {
 
     if ($.browser.msie && parseInt($.browser.version, 10) < 8) {
         $(window).bind('resize', function() {
-            var c = $('div.art-content');
-            var s = c.parent().children('.art-layout-cell:not(.art-content)');
+            var c = $('div.content');
+            var s = c.parent().children('.layout-cell:not(.content)');
             var w = 0;
             c.hide();
             s.each(function() { w += $(this).outerWidth(true); });
@@ -335,8 +335,8 @@ var artButtonSetup = (function ($) {
     return (function (className) {
         $.each($("a." + className + ", button." + className + ", input." + className), function (i, val) {
             var b = $(val);
-            if (!b.hasClass('art-button')) {
-                b.addClass('art-button');
+            if (!b.hasClass('button')) {
+                b.addClass('button');
             }
             if (b.is('input')) {
                 b.val(b.val().replace(/^\s*/, '')).css('zoom', '1');
@@ -362,7 +362,7 @@ var artButtonSetup = (function ($) {
 })(jQuery);
 jQuery(function () {
     'use strict';
-    artButtonSetup("art-button");
+    artButtonSetup("button");
 });
 
 var Control = (function ($) {
@@ -371,7 +371,7 @@ var Control = (function ($) {
         this.init = function(label, type, callback) {
             var chAttr = label.find('input[type="' +type + '"]').attr('checked');
             if (chAttr === 'checked') {
-              label.addClass('art-checked');
+              label.addClass('checked');
             }
 
             label.mouseleave(function () {
@@ -405,9 +405,9 @@ var fixRssIconLineHeight = (function (className) {
 
 jQuery(function ($) {
     'use strict';
-    var rssIcons = $(".art-rss-tag-icon");
+    var rssIcons = $(".rss-tag-icon");
     if (rssIcons.length){
-        fixRssIconLineHeight("art-rss-tag-icon");
+        fixRssIconLineHeight("rss-tag-icon");
         if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
             rssIcons.each(function () {
                 if ($.trim($(this).html()) === "") {
@@ -488,12 +488,12 @@ var ThemeLightbox = (function ($) {
     'use strict';
     return (function () {
         var current;
-        var images = $("img.art-lightbox");
+        var images = $("img.lightbox");
 
         var b = $("body");
 
         this.init = function (ctrl) {
-            $("img.art-lightbox").live("click", { _ctrl: ctrl }, function (e) {
+            $("img.lightbox").live("click", { _ctrl: ctrl }, function (e) {
 
                 if (e.data._ctrl === true && !e.ctrlKey) {
                     return;
@@ -522,9 +522,9 @@ var ThemeLightbox = (function ($) {
         };
 
         function show(src) {
-            var d = $('<div id="art-lightbox-bg"><div class="close"><div class="cw"> </div><div class="ccw"> </div><div class="close-alt">&#10007;</div></div></div>');
+            var d = $('<div id="lightbox-bg"><div class="close"><div class="cw"> </div><div class="ccw"> </div><div class="close-alt">&#10007;</div></div></div>');
 
-            var img = $('<img class="art-lightbox-image active" alt="" src="' + getFullImgSrc($(src).attr("src")) + '" />');
+            var img = $('<img class="lightbox-image active" alt="" src="' + getFullImgSrc($(src).attr("src")) + '" />');
 
             resizeOnLoad(img);
             img.appendTo(b);
@@ -549,7 +549,7 @@ var ThemeLightbox = (function ($) {
         }
 
         function reload() {
-            images = $("img.art-lightbox");
+            images = $("img.lightbox");
         }
 
         function move(index) {
@@ -561,11 +561,11 @@ var ThemeLightbox = (function ($) {
 
             current = index;
 
-            $("img.art-lightbox-image:not(.active)").remove();
+            $("img.lightbox-image:not(.active)").remove();
 
             var active = $("img.active");
 
-            var target = $('<img class="art-lightbox-image" alt="" src="' + getFullImgSrc($(images[current]).attr("src")) + '" />');
+            var target = $('<img class="lightbox-image" alt="" src="' + getFullImgSrc($(images[current]).attr("src")) + '" />');
 
             resizeOnLoad(target);
             active.after(target);
@@ -573,7 +573,7 @@ var ThemeLightbox = (function ($) {
             showArrows();
             showLoader(true);
 
-            bindMouse($("#art-lightbox-bg").add(target));
+            bindMouse($("#lightbox-bg").add(target));
 
             target.load(function () {
                 showLoader(false);
@@ -631,7 +631,7 @@ var ThemeLightbox = (function ($) {
         }
 
         var close = function () {
-            $("#art-lightbox-bg, .art-lightbox-image, .arrow, .lightbox-error").remove();
+            $("#lightbox-bg, .lightbox-image, .arrow, .lightbox-error").remove();
         };
 
         function resizeOnLoad(img) {
@@ -903,7 +903,7 @@ jQuery(function () {
             if (moving) { this.stop(true); }
 
             if (!nextItem.length) {
-                nextItem = element.find(".art-slide-item")[reset]();
+                nextItem = element.find(".slide-item")[reset]();
                 if (!this.settings.repeat) { last = true; active = false; return; }
             }
 
@@ -1023,7 +1023,7 @@ jQuery(function () {
         if (this.settings.hover) {
             var slider = this;
             element.add(this.settings.navigator)
-                   .add(element.siblings(".art-shapes")).hover(function () {
+                   .add(element.siblings(".shapes")).hover(function () {
                 if (element.is(":visible") && !last) { slider.stop(true); }
             }, function () {
                 if (element.is(":visible") && !last) { slider.start(); }
@@ -1065,7 +1065,7 @@ jQuery(function ($) {
         var src = scripts.get(0).src;
         path = src.substr(0, src.indexOf("script.js"));
     }
-    var header = $(".art-header");
+    var header = $(".header");
     var bgimages = "".split(",");
     var bgpositions = "".split(",");
     for (var i = 0; i < bgimages.length; i++) {
@@ -1075,7 +1075,7 @@ jQuery(function ($) {
         if (path !== "") {
             bgimage = bgimage.replace(/(url\(['"]?)/i, "$1" + path);
         }
-        header.find(".art-shapes").prepend("<div style=\"position:absolute;top:0;left:0;width:100%;height:100%;background:" + bgimage + " " + bgpositions[i] + " no-repeat\">");
+        header.find(".shapes").prepend("<div style=\"position:absolute;top:0;left:0;width:100%;height:100%;background:" + bgimage + " " + bgpositions[i] + " no-repeat\">");
     }
     header.css('background-image', "url('images/header.png')".replace(/(url\(['"]?)/i, "$1" + path));
     header.css('background-position', "center top");

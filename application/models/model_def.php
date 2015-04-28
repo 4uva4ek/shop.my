@@ -83,7 +83,7 @@ class Model_def extends CI_Model
         $result = $this->db->query($sql);
         $arr_res = $result->result_array();
         if (isset($arr_res[0])) {
-            $this->session->set_userdata(array('user'=>$arr_res[0]));
+            $this->session->set_userdata(array('user' => $arr_res[0]));
         } else {
             if ($arr['type'] == 'local') {
                 $this->session->set_flashdata('err_message', 'Неправильный логин или пароль');
@@ -91,7 +91,7 @@ class Model_def extends CI_Model
             }
             if ($arr['type'] != 'local') {
                 $this->addUser($arr);
-                $this->session->set_userdata(array('user'=>$arr));
+                $this->session->set_userdata(array('user' => $arr));
             }
         }
         return '/';
@@ -104,25 +104,26 @@ class Model_def extends CI_Model
         $this->db->query($sql);
     }
 
-    public function registration(){
+    public function registration()
+    {
         $data['email'] = $this->input->post('email');
         $data['password'] = $this->input->post('password');
         $data['nickname'] = $this->input->post('nickname');
         $emails = $this->db->get('user');
         $password2 = $this->input->post('password2');
-        $mess=false;
+        $mess = false;
         if (trim($this->input->post('captcha')) != $this->session->flashdata('captcha')) {
-            $mess.= 'Неверно введен код с картинки<br/>';
+            $mess .= 'Неверно введен код с картинки<br/>';
         }
-        if ($data['password']!=$password2){
-            $mess.= 'Пароли не совпадают<br/>';
+        if ($data['password'] != $password2) {
+            $mess .= 'Пароли не совпадают<br/>';
         }
-        foreach ($emails->result_array() as $email){
-            if ($data['email']==$email){
-                $mess.='Указанная электронная почта уже существует<br/>';
+        foreach ($emails->result_array() as $email) {
+            if ($data['email'] == $email) {
+                $mess .= 'Указанная электронная почта уже существует<br/>';
             }
         }
-        if ($mess){
+        if ($mess) {
             $this->session->set_flashdata('err_message', $mess);
             return false;
         }
@@ -132,13 +133,38 @@ class Model_def extends CI_Model
 
     }
 
-    public function getVals($vals){
-        if (is_array($vals)){
-            foreach ($vals as $val){
+    public function getVals($vals)
+    {
+        if (is_array($vals)) {
+            foreach ($vals as $val) {
                 $out[$val] = $this->input->post($val);
             }
             return $out;
         } else return false;
+    }
+
+    public function showAdminPanel()
+    {
+        $arr_menu = array(
+            array(
+                'name' => 'Добавить категорию',
+                'href' => 'admin/add_category'
+            ),
+            array(
+                'name' => 'Добавить товар',
+                'href' => 'admin/add_tovar'
+            ),
+            array(
+                'name' => 'Заказы',
+                'href' => 'admin/order'
+            ),
+        );
+        $str=array();
+        foreach ($arr_menu as $arr)
+        {
+            $str[]='<a href="'.$arr['href'].'">'.$arr['name'].'</a>';
+        }
+        return implode('<br/>',$str);
     }
 
 }

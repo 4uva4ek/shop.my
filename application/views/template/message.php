@@ -1,5 +1,5 @@
-<div class="art-postcontent art-postcontent-0 clearfix message">
-    <div class="art-postmetadataheader <?php echo $class; ?>">
+<div class="postcontent postcontent-0 clearfix message">
+    <div class="postmetadataheader <?php echo $class; ?>">
         <span><?php echo $message; ?></span>
     </div>
 </div>
