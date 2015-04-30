@@ -56,9 +56,9 @@ p {
 </style>
 </head>
 <body>
-	<div id="container">
-		<h1><?php echo $heading; ?></h1>
-		<?php echo $message; ?>
+	<div id="container" style="padding:10px;">
+                <h2 class="postheader" style="color:#003399;">Страница не найдена</h2>
+                <h3>Извините, но запрашиваемая страница не найдена.</h3>
 	</div>
 </body>
 </html>

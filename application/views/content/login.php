@@ -1,8 +1,8 @@
-<div class="art-postcontent art-postcontent-0 clearfix">
-    <div class="art-postmetadataheader">
-        <h2 class="art-postheader">Авторизация</h2>         
+<div class="postcontent postcontent-0 clearfix">
+    <div class="postmetadataheader">
+        <h2 class="postheader">Авторизация</h2>
     </div>
-    <div class="art-content-layout">
+    <div class="content-layout">
         <form action="/def/get_auth" method="POST">
             <div class="auth"><label>Электронная почта:<br/><input type="email" name="email" required/></label></div>
             <div class="auth"><label>Пароль:<br/><input type="password" name="password"  required/></label></div>

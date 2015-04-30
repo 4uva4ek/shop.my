@@ -1,5 +1,5 @@
-            <nav class="art-nav clearfix">
-                <ul class="art-hmenu">
+            <nav class="nav clearfix">
+                <ul class="hmenu">
                     <?php echo $nav;?>
                 </ul> 
             </nav>
